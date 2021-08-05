@@ -1,13 +1,14 @@
 import { NextPage } from 'next';
 import { useEffect } from 'react';
-import useContents from '../store/hooks/useContents';
 import useUser from '../store/hooks/useUser';
-import useMovie from '../store/hooks/useMovie';
 import PageTemplate from '../components/common/PageTemplate';
 import Logout from '../components/Logout';
+import useAuth from './hooks/useAuth';
+import Condition from '../components/condition/Condition';
 
 const IndexPage: NextPage = () => {
   const { checkLoggedIn, onLogout, loading, error } = useUser();
+  useAuth();
 
   useEffect(() => {
     checkLoggedIn();
@@ -19,6 +20,7 @@ const IndexPage: NextPage = () => {
   return (
     <PageTemplate>
       <Logout onLogout={onLogout} />
+      <Condition />
     </PageTemplate>
   );
 };

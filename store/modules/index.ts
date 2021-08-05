@@ -4,6 +4,7 @@ import movie from './movie';
 import chastity from './chastity';
 import condition from './condition';
 import contents from './contents';
+import menu from './menu';
 
 const rootReducer = combineReducers({
   user,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   chastity,
   condition,
   contents,
+  menu,
 });
 
 export default rootReducer;

@@ -1,20 +1,18 @@
-import { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
-  MoviePayload,
   moviesRequest,
   moviesSuccess,
   moviesFailure,
 } from '../store/modules/movie';
 
-function getMoviesListAPI(data: MoviePayload) {
+function getMoviesListAPI() {
   return axios.get('https://api.tvmaze.com/search/shows?q=superman');
 }
 
-function* fetchGetMoviesListSaga(action: PayloadAction<MoviePayload>) {
+function* fetchGetMoviesListSaga() {
   try {
-    const result = yield call(getMoviesListAPI, action.payload);
+    const result = yield call(getMoviesListAPI);
 
     yield put(moviesSuccess(result));
   } catch (err) {

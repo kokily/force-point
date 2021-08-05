@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cookie from 'js-cookie';
-import { loggedIn } from '../modules/user';
+import { loggedIn, logoutRequest } from '../modules/user';
 import { RootState } from '../modules';
 
 export default function useUser() {
-  const { userId } = useSelector((state: RootState) => state.user);
+  const { userId, error, loading } = useSelector(
+    (state: RootState) => state.user
+  );
   const dispatch = useDispatch();
 
   const checkLoggedIn = useCallback(() => {
@@ -15,8 +17,13 @@ export default function useUser() {
       userId = cookie.get('JSESSIONID');
     }
 
-    dispatch(loggedIn({ userId }));
+    dispatch(loggedIn({ userId, error: null }));
   }, []);
 
-  return { userId, checkLoggedIn };
+  const onLogout = useCallback(() => {
+    dispatch(logoutRequest({}));
+    document.location.href = '/';
+  }, []);
+
+  return { userId, checkLoggedIn, onLogout, error, loading };
 }

@@ -1,40 +1,25 @@
 import { NextPage } from 'next';
 import { useEffect } from 'react';
-import useMovie from '../store/hooks/userMovie';
+import useContents from '../store/hooks/useContents';
 import useUser from '../store/hooks/useUser';
+import useMovie from '../store/hooks/useMovie';
+import PageTemplate from '../components/common/PageTemplate';
+import Logout from '../components/Logout';
 
 const IndexPage: NextPage = () => {
-  const { userId, checkLoggedIn } = useUser();
-  const { data, onMoviesList } = useMovie();
+  const { checkLoggedIn, onLogout, loading, error } = useUser();
 
   useEffect(() => {
     checkLoggedIn();
   }, []);
 
+  if (loading) return null;
+  if (error) return null;
+
   return (
-    <div>
-      <h2>IndexPage</h2>
-
-      <div>Logged: {userId}</div>
-
-      <div>
-        <button onClick={onMoviesList}>Move List</button>
-      </div>
-
-      <div>
-        <ul>
-          {data &&
-            data.map((movie, i) => (
-              <li key={i}>
-                <span>제목 : {movie.show.name}</span>
-                <span>점수 : {movie.score}</span>
-                <span>타입 : {movie.show.type}</span>
-                <span>언어 : {movie.show.language}</span>
-              </li>
-            ))}
-        </ul>
-      </div>
-    </div>
+    <PageTemplate>
+      <Logout onLogout={onLogout} />
+    </PageTemplate>
   );
 };
 
